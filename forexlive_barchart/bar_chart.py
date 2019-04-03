@@ -14,7 +14,7 @@ app = dash.Dash(__name__)
 app.layout = html.Div(
     [
         dcc.Graph(id='graphone', animate=False),
-        dcc.Interval(id='updateone',interval=1*6000),
+        dcc.Interval(id='updateone',interval=1*2500),
     ]
 )
 
@@ -22,10 +22,9 @@ app.layout = html.Div(
 def update_graph_scatter():
     traces = list()
     rate_list = []
+    symbols_list = ['USDGBP','USDEUR','USDKWD','USDCHF','USDCAD','USDZAR']
 
-    symbols = ['USDGBP','USDEUR','USDKWD']
-
-    url = 'https://www.freeforexapi.com/api/live?pairs=USDGBP,USDEUR,USDKWD'
+    url = 'https://www.freeforexapi.com/api/live?pairs=USDGBP,USDEUR,USDKWD,USDJPY,USDCHF,USDCAD,USDZAR'
     request = requests.get(url)
     gbp_rate = request.json()['rates']["USDGBP"]["rate"]
     gbp_time = request.json()['rates']["USDGBP"]["timestamp"]
@@ -34,19 +33,38 @@ def update_graph_scatter():
     kwd_rate = request.json()['rates']["USDKWD"]["rate"]
     kwd_time = request.json()['rates']["USDKWD"]["timestamp"]
 
+    chf_rate = request.json()['rates']["USDCHF"]["rate"]
+    chf_time = request.json()['rates']["USDCHF"]["timestamp"]
+
+    cad_rate = request.json()['rates']["USDCAD"]["rate"]
+    cad_time = request.json()['rates']["USDCAD"]["timestamp"]
+
+    zar_rate = request.json()['rates']["USDZAR"]["rate"]
+    zar_time = request.json()['rates']["USDZAR"]["timestamp"]
+
     rate_list.append(gbp_rate)
     rate_list.append(eur_rate)
     rate_list.append(kwd_rate)
+    rate_list.append(chf_rate)
+    rate_list.append(cad_rate)
+    rate_list.append(zar_rate)
 
-    print (symbols)
+    print (rate_list)
 
     traces.append(go.Bar(
-            x=symbols,
+            x=symbols_list,
             y=rate_list,
-            name='barchart'
+            text = rate_list,
+            name='barchart',
+            textposition='auto',
+            marker=dict(
+                color='rgb(158,202,225)',
+                line=dict(
+                    color='rgb(8,48,107)',
+                    width=1.5),
+        ),
             ))
 
-    print (traces)
 
     return {'data': traces}
 
