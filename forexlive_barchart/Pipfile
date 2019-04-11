@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+requests = "*"
+flask = "*"
+plotly = "*"
+datetime = "*"
+flask-caching = "*"
+flask-restful = "*"
+dash-dependencies = "*"
+dash = "==0.30.0"
+dash-core-components = "==0.38.0"
+dash-html-components = "==0.13.2"
+dash-renderer = "==0.15.0"
+
+[requires]
+python_version = "3.7"
